@@ -13,6 +13,7 @@ def load_and_format_data():
     return data
 
 def compute_single_round_score(couple):
+    # A is 1 point, B 2 points, C 3 points
     score = ord(couple[1]) - (ord("A")) + 1
 
     # draw
@@ -26,6 +27,7 @@ def compute_single_round_score(couple):
     return score
 
 def get_score(data):
+    """ Part 1: just follows the guide (data) """
     score = 0
 
     for couple in data:
@@ -34,6 +36,7 @@ def get_score(data):
     return score
 
 def get_sneaky_score(data):
+    """ Part 2: your letter (second row in the data) tells if you have to win, draw or lose """
     score = 0
 
     for couple in data:
