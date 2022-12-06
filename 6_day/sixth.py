@@ -1,10 +1,5 @@
 def has_diff_letters(buffer):
-    for i, l in enumerate(buffer):
-        for j, l2 in enumerate(buffer):
-            if i != j and l == l2:
-                    return False
-
-    return True
+    return len(buffer) == len(set(buffer))
 
 
 def find_marker_index(data, buffer_size=4):
