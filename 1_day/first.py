@@ -1,5 +1,5 @@
 def load_and_format_data():
-    with open("first_data.txt", "r") as input_file:
+    with open("data.txt", "r") as input_file:
         contents = input_file.read()
         data = [[int(y) for y in x.split("\n")] for x in contents.split("\n\n")]
         

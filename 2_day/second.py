@@ -6,7 +6,7 @@ DRAW = {"A": "X", "B": "Y", "C": "Z"}
 MUST = {"X": LOSE, "Y": DRAW, "Z": WIN}
 
 def load_and_format_data():
-    with open("second_data.txt", "r") as input_file:
+    with open("data.txt", "r") as input_file:
         contents = input_file.read()
         data = [ x.split(" ") for x in contents.split("\n")]
     
