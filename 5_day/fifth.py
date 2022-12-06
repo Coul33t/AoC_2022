@@ -11,9 +11,9 @@ class MovingInstr:
     origin: int
     destination: int
 
-class Deck:
+class Dock:
     """ 
-        Represents a Deck, which is made of few stacks of crates (LIFOs) and a crane to move them around (run() method)
+        Represents a Dock, which is made of few stacks of crates (LIFOs) and a crane to move them around (run() method)
         from a list of MovingInstr
     """
     def __init__(self, deck_data, move_data):
@@ -23,7 +23,7 @@ class Deck:
 
     def init(self, deck_data, move_data):
         """ 
-            Initialises the Deck attributes (number of stacks, initial stacks states, moving instructions)
+            Initialises the Dock attributes (number of stacks, initial stacks states, moving instructions)
             from the strings of data
         """
         # ----------------------------
@@ -117,7 +117,7 @@ def load_and_format_data():
 
         splitted_input = contents.split("\n")
         
-        deck_data = []
+        dock_data = []
         line_idx = 0
 
         while True:
@@ -128,22 +128,22 @@ def load_and_format_data():
 
             # Skip empty lines
             if splitted_input[line_idx]:
-                deck_data.append(splitted_input[line_idx])
+                dock_data.append(splitted_input[line_idx])
             line_idx += 1
 
         move_data = splitted_input[line_idx:]
 
-    return deck_data, move_data
+    return dock_data, move_data
 
 def main():
-    deck_data, move_data = load_and_format_data()
-    deck = Deck(deck_data, move_data)
-    deck.run(put_order="regular")
-    print(f"Final top crates (regular order): {deck.get_top_crates()}")
+    dock_data, move_data = load_and_format_data()
+    dock = Dock(dock_data, move_data)
+    dock.run(put_order="regular")
+    print(f"Final top crates (regular order): {dock.get_top_crates()}")
 
-    deck_same = Deck(deck_data, move_data)
-    deck_same.run(put_order="same")
-    print(f"Final top crates (same order): {deck_same.get_top_crates()}")
+    dock_same = Dock(dock_data, move_data)
+    dock_same.run(put_order="same")
+    print(f"Final top crates (same order): {dock_same.get_top_crates()}")
 
 
 if __name__ == "__main__":
