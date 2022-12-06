@@ -1,8 +1,14 @@
 def has_diff_letters(buffer):
+    """
+        Checks if a string is only made of unique characters
+    """
     return len(buffer) == len(set(buffer))
 
 
 def find_marker_index(data, buffer_size=4):
+    """
+        Finds the marker index in a string where a number (buffer_size) of letters are all uniques
+    """
     buffer = []
     for i, l in enumerate(data):
         buffer.append(l)
