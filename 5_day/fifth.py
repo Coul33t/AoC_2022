@@ -1,5 +1,4 @@
 # each stack is a LIFO (Last In First Out)
-from asyncio import LifoQueue
 import queue
 from dataclasses import dataclass
 
