@@ -1,6 +1,6 @@
 def has_diff_letters(buffer):
     """
-        Checks if a string is only made of unique characters
+        Checks if a string is only made of unique characters by comparing the size of the string vs the size of the string as a set
     """
     return len(buffer) == len(set(buffer))
 
@@ -10,13 +10,18 @@ def find_marker_index(data, buffer_size=4):
         Finds the marker index in a string where a number (buffer_size) of letters are all uniques
     """
     buffer = []
+
     for i, l in enumerate(data):
+        # Add the next character to the buffer
         buffer.append(l)
 
+        # If the buffer is filled
         if i > buffer_size - 2:
+            # Check if all characters are different from each other
             if has_diff_letters(buffer):
                 return i + 1
             else:
+                # removes the last character in the buffer (at idx = 0)
                 buffer.pop(0)
 
     return -1
