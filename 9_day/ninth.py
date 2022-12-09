@@ -100,8 +100,10 @@ class Walker:
 
         while self.next_instr():
             for n in range(self.current_instr.steps):
+                # Move the head
                 self.move_current(all_pos["head"], *DELTA[self.current_instr.dir])
 
+                # If the tail is more than one tile away from the head, move it too
                 if self.dst(all_pos["head"], all_pos["tail"]) >= 2:
                     self.move_next(all_pos["head"], all_pos["tail"])
                     self.visited.add(all_pos["tail"].as_tuple())
@@ -119,13 +121,18 @@ class Walker:
 
         while self.next_instr():
             for n in range(self.current_instr.steps):
+                # Move the head
                 self.move_current(all_pos[0], *DELTA[self.current_instr.dir])
 
                 last_idx = 0
+                # For each other knot
                 for current_idx in range(1, len(all_pos)):
+                    # If the distance to the knot in front of the current one is > 2 (= farther than 1 tile away)
                     if self.dst(all_pos[last_idx], all_pos[current_idx]) >= 2:
+                        # Move it closer to the knot in front of it
                         self.move_next(all_pos[last_idx], all_pos[current_idx])
 
+                        # If it's the last node (= the tail), add its current tile to the visited set
                         if (current_idx == len(all_pos) - 1):
                             self.visited.add(all_pos[-1].as_tuple())
 
