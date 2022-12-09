@@ -1,4 +1,5 @@
 def load_and_format_data():
+    """ Loads and format the data """
     with open("data.txt", "r") as input_file:
         contents = input_file.read()
         data = [[int(y) for y in x.split("\n")] for x in contents.split("\n\n")]
@@ -6,9 +7,11 @@ def load_and_format_data():
     return data
 
 def get_max(data):
+    """ Returns the max sum for each stack of calories """
     return max([sum(x) for x in data])
 
 def get_three_top_max(data):
+    """ Returns the sum of the 3 highest calories count """
     max_three = []
 
     for vals in data:

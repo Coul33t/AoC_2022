@@ -6,6 +6,7 @@ DRAW = {"A": "X", "B": "Y", "C": "Z"}
 MUST = {"X": LOSE, "Y": DRAW, "Z": WIN}
 
 def load_and_format_data():
+    """ Loads the data into a list of strings """
     with open("data.txt", "r") as input_file:
         contents = input_file.read()
         data = [ x.split(" ") for x in contents.split("\n")]
@@ -13,6 +14,7 @@ def load_and_format_data():
     return data
 
 def compute_single_round_score(couple):
+    """ Computes the score for a single round """
     # A is 1 point, B 2 points, C 3 points
     score = ord(couple[1]) - (ord("A")) + 1
 
