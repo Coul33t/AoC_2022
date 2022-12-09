@@ -36,6 +36,7 @@ class Folder(FileNode):
     size = 0
 
     def print_content(self) -> None:
+        """ Prints the content of the folder (files and directories)"""
         for filenode in self.content:
             print(filenode.name)
 
