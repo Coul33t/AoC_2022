@@ -33,7 +33,7 @@ class Register:
 
 @dataclass
 class Sprite:
-    pos: int = 0
+    pos: int = -1
     size: int = 3
 
 
@@ -51,7 +51,7 @@ class SignalReader:
         self.to_do_queue.clear()
 
     def reset_register(self) -> None:
-        self.X.val = 0
+        self.X.val = 1
 
     def reset(self) -> None:
         self.reset_cycles()
@@ -67,6 +67,22 @@ class SignalReader:
             elif instr.name == InstrName.ADDX:
                 self.to_do_queue.append(None)
                 self.to_do_queue.append(instr)
+
+    def instr_to_queue_other(self) -> None:
+        add_next = None
+
+        for i, instr in enumerate(self.instr_lst):
+            if i == 0:
+                self.to_do_queue.append(None)
+
+                if instr.name == InstrName.ADDX:
+                    add_next = instr
+
+            else:
+                self.to_do_queue.append(add_next)
+                add_next = None
+                if instr.name == InstrName.ADDX:
+                    add_next = instr
 
     def get_total_strength(self) -> int:
         self.reset()
@@ -130,21 +146,21 @@ class Device:
             if line_cycle > 39:
                 line_cycle = 0
 
-            print("-------------------------")
-            print(f"Sprite pos   : {self.screen.sprite.pos}")
-            print(f"Current cycle: {self.signal_reader.cycle} (-1 for idx on screen)")
-            print(f"Is lit       : {self.check_if_lit(line_cycle)}")
-            print(f"Current todo : {todo}")
-            line = ["." for x in range (40)]
-            line[self.screen.sprite.pos] = "#"
-            line[self.screen.sprite.pos + 1] = "#"
-            line[self.screen.sprite.pos + 2] = "#"
-            line[line_cycle - 1] = "o"
-            print(f"Sprite pos   : ")
-            print(f"{''.join(line)}")
-            print("Current screen:")
-            self.screen.display()
-            print("-------------------------")
+            # print("-------------------------")
+            # print(f"Sprite pos   : {self.screen.sprite.pos}")
+            # print(f"Current cycle: {self.signal_reader.cycle} (-1 for idx on screen)")
+            # print(f"Is lit       : {self.check_if_lit(line_cycle)}")
+            # print(f"Current todo : {todo}")
+            # line = ["." for x in range (40)]
+            # line[self.screen.sprite.pos] = "#"
+            # line[self.screen.sprite.pos + 1] = "#"
+            # line[self.screen.sprite.pos + 2] = "#"
+            # line[line_cycle - 1] = "o"
+            # print(f"Sprite pos   : ")
+            # print(f"{''.join(line)}")
+            # print("Current screen:")
+            # self.screen.display()
+            # print("-------------------------")
 
             if self.check_if_lit(line_cycle):
                 self.screen.ascii[self.signal_reader.cycle - 1] = "#"
@@ -152,15 +168,12 @@ class Device:
             if isinstance(todo, Instr):
                 self.signal_reader.X.do(todo)
                 self.screen.sprite.pos = self.signal_reader.X.val - 1 # -1 because the register value is the center of the sprite
-            
-
-            if line_cycle == 10:
-                breakpoint()
+                
 def load_and_format_data():
     """ Loads the data in a list of Instr """
     data = []
 
-    with open("test_data.txt", "r") as input_file:
+    with open("data.txt", "r") as input_file:
         content = input_file.read()
 
         for line in content.split("\n"):
