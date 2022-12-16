@@ -21,10 +21,11 @@ def operator_to_string(string):
     elif string == "*":
         return Operator.MUL
 
-    elif string == "/":
+    elif string == "/" or string == "divisible":
         return Operator.DIV
 
     return Operator.NONE
+
 
 @dataclass
 class Monkey:
@@ -35,9 +36,35 @@ class Monkey:
     new: int = -1
     values: list = field(default_factory=list)
     test_operator: Operator = Operator.NONE
-    value_test = int = -1
+    value_test: int = -1
     throw_to: list = field(default_factory=list)
 
+def do_operation(monkey):
+    val1 = -2
+    val2 = -2
+
+    if monkey.values[0] == "old":
+        val1 = monkey.old
+
+    if monkey.values[1] == "old":
+        val2 = monkey.old
+
+    if monkey.values_operator == Operator.ADD:
+        return val1 + val2
+
+    elif monkey.values_operator == Operator.MUL:
+        return val1 * val2
+
+def do_test(monkey):
+    if monkey.test_operator == Operator.DIV:
+        return monkey.new % monkey.value_test == 0
+
+
+def going_ape(monkeys):
+    for i, monkey in enumerate(monkeys):
+        for single_item in monkey.starting_items:
+            monkey.old = single_item
+            monkey.new = do_operation(monkey)
 
 def load_and_format_data():
     """ Loads the data in a list of Monkeys """
@@ -58,7 +85,7 @@ def load_and_format_data():
                 if monkey:
                     data.append(monkey)
 
-                monkey = Monkey(name=splitted[1])
+                monkey = Monkey(name=splitted[1].strip(":"))
 
             elif splitted[0] == "Starting":
                 monkey.starting_items = [int(x) for x in line.split(":")[1].split(",")]
@@ -79,9 +106,20 @@ def load_and_format_data():
                 except ValueError:
                     monkey.values.append(operator_splitted[3])
 
-            # TODO: Test
+            elif splitted[0] == "Test:":
+                test_splitted = line.strip().split(":")[1].strip().split(" ")
+
+                monkey.test_operator = operator_to_string(test_splitted[0])
+                monkey.value_test = int(test_splitted[-1])
+
+            elif splitted[1] == "true:":
+                monkey.throw_to.append(int(splitted[-1]))
+
+            elif splitted[1] == "false:":
+                monkey.throw_to.append(int(splitted[-1]))
                 
-        
+        data.append(monkey)
+
     return data
 
 def main():
